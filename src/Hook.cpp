@@ -15,7 +15,7 @@ std::unordered_set<std::string> ExcludeList = {};
 TInstanceHook(void, "?sendPlayerMovementAnomaly@ServerPlayerEventCoordinator@@QEAAXAEAVPlayer@@AEBVVec3@@MM@Z", ServerPlayerEventCoordinator, Player* pl, Vec3* pos, float a1, float a2) {
     if (pl->isLoading()) {
         ExcludeList.insert(pl->getRealName());
-        auto task = Schedule::delay([pl](){
+        Schedule::delay([pl](){
             ExcludeList.erase(pl->getRealName());
         }, 200);
         return original(this, pl, pos, a1, a2);
